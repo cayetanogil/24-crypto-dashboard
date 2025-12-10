@@ -256,7 +256,7 @@ function CryptocurrencyDetail() {
 										</a>
 									</li>
 								)}
-								{cryptocurrencyDetail.links.homepage[0] && (
+								{cryptocurrencyDetail.links.repos_url.github[0] && (
 									<li>
 										<a
 											className="text-blue-500"
@@ -269,7 +269,7 @@ function CryptocurrencyDetail() {
 										</a>
 									</li>
 								)}
-								{cryptocurrencyDetail.links.homepage[0] && (
+								{cryptocurrencyDetail.links.subreddit_url && (
 									<li>
 										<a
 											className="text-blue-500"
