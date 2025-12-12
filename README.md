@@ -4,6 +4,8 @@ A responsive dashboard showcasing cryptocurrency market data with a focus on **c
 
 It’s a single-page React application built with Vite, using Redux Toolkit for state management, React Router for navigation, and a Tailwind/Radix-based component system for the UI.
 
+**Live demo:** https://24-crypto-dashboard.netlify.app/
+
 ---
 
 ## Screenshot
