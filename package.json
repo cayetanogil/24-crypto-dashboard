@@ -26,8 +26,8 @@
     "html-react-parser": "^5.2.10",
     "lucide-react": "^0.560.0",
     "numeral": "^2.0.6",
-    "react": "^19.2.2",
-    "react-dom": "^19.2.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.10.1",
     "recharts": "^3.5.1",
@@ -37,7 +37,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^25.0.0",
+    "@types/node": "^25.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.49.0",
