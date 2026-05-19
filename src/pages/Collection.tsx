@@ -11,13 +11,11 @@ const Collection = () => {
 		(state: RootState) => state.cryptocurrency.cryptocurrencies
 	);
 
-	const favoriteCryptocurrencies = favorites.map(
-		(favorite: string) => {
-			return cryptocurrencies.find(
-				(crypto: Cryptocurrency) => crypto.id === favorite
-			);
-		}
-	);
+	const favoriteCryptocurrencies = favorites
+		.map((favorite: string) =>
+			cryptocurrencies.find((crypto: Cryptocurrency) => crypto.id === favorite)
+		)
+		.filter((crypto): crypto is Cryptocurrency => crypto !== undefined);
 
 	return (
 		<div className="p-4 flex-grow">

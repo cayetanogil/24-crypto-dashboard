@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CryptocurrencyList from './CryptocurrencyList';
 import useCryptocurrencies from '../hooks/useCryptocurrencies';
 import {
@@ -29,9 +29,10 @@ import { Cryptocurrency } from '@/types';
 
 const Sidebar = () => {
 	const { cryptocurrencies } = useCryptocurrencies();
+	const navigate = useNavigate();
 
 	const handleCoinChange = (value: string) => {
-		window.location.href = `/coins/${value}`;
+		navigate(`/coins/${value}`);
 	};
 
 	return (

@@ -26,6 +26,19 @@ interface CryptocurrencyState {
 	error: string | null;
 }
 
+function loadFavorites(): string[] {
+	try {
+		const stored = localStorage.getItem('favorites');
+		return stored ? JSON.parse(stored) : [];
+	} catch {
+		return [];
+	}
+}
+
+function saveFavorites(favorites: string[]) {
+	localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
 const initialState: CryptocurrencyState = {
 	cryptocurrencies: [],
 	cryptocurrencyDetail: {},
@@ -35,7 +48,7 @@ const initialState: CryptocurrencyState = {
 		total_volumes: [],
 	},
 	timeRange: '30',
-	favorites: [],
+	favorites: loadFavorites(),
 	status: 'idle',
 	error: null,
 };
@@ -80,11 +93,13 @@ const cryptocurrencySlice = createSlice({
 		},
 		addFavorite: (state, action: PayloadAction<string>) => {
 			state.favorites.push(action.payload);
+			saveFavorites(state.favorites);
 		},
 		removeFavorite: (state, action: PayloadAction<string>) => {
 			state.favorites = state.favorites.filter(
 				(id) => id !== action.payload
 			);
+			saveFavorites(state.favorites);
 		},
 	},
 	extraReducers: (builder) => {
