@@ -6,52 +6,71 @@ import {
 	CryptocurrencyHistory,
 } from '../types';
 
-const API_BASE_URL = 'https://api.coingecko.com/api/v3';
+const API_BASE_URL = import.meta.env.DEV
+	? '/api/v3'
+	: 'https://api.coingecko.com/api/v3';
 
-function saveDataToLocal(key: string, data: unknown) {
-	localStorage.setItem(key, JSON.stringify(data));
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+interface CacheEntry<T> {
+	data: T;
+	timestamp: number;
 }
 
-function getDataFromLocal(key: string) {
-	const data = localStorage.getItem(key);
-	return data ? JSON.parse(data) : null;
+function saveToCache<T>(key: string, data: T) {
+	localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
 }
 
-export const getCryptocurrencies = async (): Promise<
-	Cryptocurrency[]
-> => {
+function getFreshFromCache<T>(key: string): T | null {
 	try {
-		const response = await axios.get(
-			`${API_BASE_URL}/coins/markets`,
-			{
-				params: { vs_currency: 'usd' },
-			}
-		);
-		saveDataToLocal('cryptocurrencies', response.data);
+		const stored = localStorage.getItem(key);
+		if (!stored) return null;
+		const entry: CacheEntry<T> = JSON.parse(stored);
+		if (Date.now() - entry.timestamp < CACHE_TTL_MS) return entry.data;
+	} catch {}
+	return null;
+}
+
+function getStaleFromCache<T>(key: string): T | null {
+	try {
+		const stored = localStorage.getItem(key);
+		if (!stored) return null;
+		const entry: CacheEntry<T> = JSON.parse(stored);
+		return entry.data;
+	} catch {}
+	return null;
+}
+
+export const getCryptocurrencies = async (): Promise<Cryptocurrency[]> => {
+	const cached = getFreshFromCache<Cryptocurrency[]>('cryptocurrencies');
+	if (cached) return cached;
+
+	try {
+		const response = await axios.get(`${API_BASE_URL}/coins/markets`, {
+			params: { vs_currency: 'usd' },
+		});
+		saveToCache('cryptocurrencies', response.data);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrencies:', error);
-		const localData = getDataFromLocal('cryptocurrencies');
-		if (localData) {
-			return localData;
-		}
-		return [];
+		return getStaleFromCache<Cryptocurrency[]>('cryptocurrencies') ?? [];
 	}
 };
 
 export const getCryptocurrencyDetail = async (
 	id: string
 ): Promise<CryptocurrencyDetail | void> => {
+	const cacheKey = `${id}_detail`;
+	const cached = getFreshFromCache<CryptocurrencyDetail>(cacheKey);
+	if (cached) return cached;
+
 	try {
 		const response = await axios.get(`${API_BASE_URL}/coins/${id}`);
-		saveDataToLocal(`${id}_detail`, response.data);
+		saveToCache(cacheKey, response.data);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrency detail:', error);
-		const localData = getDataFromLocal(`${id}_detail`);
-		if (localData) {
-			return localData;
-		}
+		return getStaleFromCache<CryptocurrencyDetail>(cacheKey) ?? undefined;
 	}
 };
 
@@ -59,23 +78,18 @@ export const getCryptocurrencyHistory = async (
 	id: string,
 	days: string
 ): Promise<CryptocurrencyHistory | void> => {
+	const cacheKey = `${id}_history_${days}`;
+	const cached = getFreshFromCache<CryptocurrencyHistory>(cacheKey);
+	if (cached) return cached;
+
 	try {
-		const response = await axios.get(
-			`${API_BASE_URL}/coins/${id}/market_chart`,
-			{
-				params: {
-					vs_currency: 'usd',
-					days: days,
-				},
-			}
-		);
-		saveDataToLocal(`${id}_history_${days}`, response.data);
+		const response = await axios.get(`${API_BASE_URL}/coins/${id}/market_chart`, {
+			params: { vs_currency: 'usd', days },
+		});
+		saveToCache(cacheKey, response.data);
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrency history:', error);
-		const localData = getDataFromLocal(`${id}_history_${days}`);
-		if (localData) {
-			return localData;
-		}
+		return getStaleFromCache<CryptocurrencyHistory>(cacheKey) ?? undefined;
 	}
 };

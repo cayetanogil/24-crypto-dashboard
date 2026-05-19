@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import CryptocurrencyList from './CryptocurrencyList';
-import useCryptocurrencies from '../hooks/useCryptocurrencies';
 import {
 	CircleStackIcon,
 	Squares2X2Icon,
@@ -28,7 +29,9 @@ import {
 import { Cryptocurrency } from '@/types';
 
 const Sidebar = () => {
-	const { cryptocurrencies } = useCryptocurrencies();
+	const cryptocurrencies = useSelector(
+		(state: RootState) => state.cryptocurrency.cryptocurrencies
+	);
 	const navigate = useNavigate();
 
 	const handleCoinChange = (value: string) => {
