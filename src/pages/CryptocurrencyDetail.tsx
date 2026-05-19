@@ -89,8 +89,8 @@ function CryptocurrencyDetail() {
 				<>
 					<Card>
 						<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-							<div className="flex flex-1 flex-col justify-center p-4">
-								<CardTitle className="flex flex-col sm:flex-row items-center justify-between pb-4">
+							<div className="flex flex-1 flex-col justify-center p-4 min-w-0">
+								<CardTitle className="flex flex-col lg:flex-row items-start lg:items-center justify-between pb-4">
 									<div className="flex flex-row items-center gap-3">
 										<img
 											className="w-10 h-10"
@@ -132,12 +132,12 @@ function CryptocurrencyDetail() {
 											</div>
 										</div>
 									</div>
-									<ul className="flex flex-row *:px-4 pt-6 sm:pt-0">
-										<li className="border-r">
+									<ul className="flex flex-row w-full lg:w-auto border-t mt-2 pt-3 lg:border-t-0 lg:mt-0 lg:pt-0">
+										<li className="border-r flex-1 lg:flex-none pr-4 lg:px-4 text-center lg:text-left">
 											<div className="uppercase text-xs font-normal text-slate-500 block">
 												Current Price
 											</div>
-											<div className="font-bold text-2xl sm:text-3xl">
+											<div className="font-bold text-2xl">
 												$
 												{numeral(
 													cryptocurrencyDetail.market_data
@@ -145,22 +145,22 @@ function CryptocurrencyDetail() {
 												).format('0,0.00')}
 											</div>
 										</li>
-										<li className="border-r">
+										<li className="border-r flex-1 lg:flex-none px-4 text-center lg:text-left">
 											<div className="uppercase text-xs font-normal text-slate-500 block">
 												Volume
 											</div>
-											<div className="font-bold text-2xl sm:text-3xl uppercase">
+											<div className="font-bold text-2xl uppercase">
 												{numeral(
 													cryptocurrencyDetail.market_data
 														.total_volume.usd
 												).format('0.00a')}
 											</div>
 										</li>
-										<li>
+										<li className="flex-1 lg:flex-none pl-4 text-center lg:text-left">
 											<div className="uppercase text-xs font-normal text-slate-500 block">
 												Market Cap
 											</div>
-											<div className="font-bold text-2xl sm:text-3xl uppercase">
+											<div className="font-bold text-2xl uppercase">
 												$
 												{numeral(
 													cryptocurrencyDetail.market_data.market_cap

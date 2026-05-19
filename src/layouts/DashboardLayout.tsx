@@ -14,11 +14,11 @@ const Layout = () => {
 	}, [dispatch]);
 
 	return (
-		<div className="flex flex-col max-h-screen">
+		<div className="flex flex-col h-screen">
 			<Header />
-			<div className="flex flex-col overflow-hidden sm:flex-row">
+			<div className="flex flex-col sm:flex-row flex-1 min-h-0">
 				<Sidebar />
-				<div className="overflow-y-auto flex-grow bg-slate-200 h-screen">
+				<div className="overflow-y-auto flex-1 bg-slate-200">
 					<Outlet />
 				</div>
 			</div>

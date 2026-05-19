@@ -39,7 +39,7 @@ const Sidebar = () => {
 	};
 
 	return (
-		<aside className="flex sm:h-screen min-w-48 bg-slate-100 border-r">
+		<aside className="flex min-w-48 bg-slate-100 border-r overflow-y-auto">
 			<nav className="p-4 w-full">
 				<ul className="sm:pb-3 sm:border-b flex flex-row gap-2 sm:flex-col sm:justify-normal justify-around">
 					<li className="uppercase text-xs text-slate-500 pt-0 ml-2 select-none hidden sm:block">
@@ -48,7 +48,7 @@ const Sidebar = () => {
 					<li>
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
 							}
 							to="/"
 						>
@@ -59,7 +59,7 @@ const Sidebar = () => {
 					<li>
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
 							}
 							to="/collection"
 						>
@@ -68,13 +68,11 @@ const Sidebar = () => {
 						</NavLink>
 					</li>
 					{cryptocurrencies && cryptocurrencies.length > 0 && (
-						<li className="rounded bg-slate-200 sm:bg-transparent">
+						<li>
 							<Drawer>
-								<DrawerTrigger className="sm:hidden rounded py-1 px-2 hover:bg-slate-200 transition-all flex flex-row items-center gap-2 group text-slate-600">
-									<CircleStackIcon className="size-5 ml-2 group-hover:text-slate-800" />
-									<p className="w-full py-2 sm:py-1 px-2 pl-0 text-sm block group-hover:text-slate-800">
-										Coins
-									</p>
+								<DrawerTrigger className="sm:hidden rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 px-2 text-sm border-b-2 border-transparent">
+									<CircleStackIcon className="size-5" />
+									Coins
 								</DrawerTrigger>
 								<DrawerContent className="bg-slate-100">
 									<DrawerHeader>
