@@ -86,10 +86,6 @@ const cryptocurrencySlice = createSlice({
 	reducers: {
 		setTimeRange(state, action: PayloadAction<string>) {
 			state.timeRange = action.payload;
-			fetchCryptocurrencyHistory({
-				id: (state.cryptocurrencyDetail as CryptocurrencyDetail).id,
-				timeRange: state.timeRange,
-			});
 		},
 		addFavorite: (state, action: PayloadAction<string>) => {
 			state.favorites.push(action.payload);

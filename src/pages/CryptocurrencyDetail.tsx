@@ -42,36 +42,11 @@ function CryptocurrencyDetail() {
 	const { id } = useParams<{ id: string }>();
 
 	const dispatch = useAppDispatch();
+	const { toast } = useToast();
 
 	const isFavorite = useSelector((state: RootState) =>
-		state.cryptocurrency.favorites.includes(id)
+		state.cryptocurrency.favorites.includes(id ?? '')
 	);
-
-	function useHandleFavoriteClick(id: string) {
-		const dispatch = useAppDispatch();
-
-		const { toast } = useToast();
-
-		const handleFavoriteClick = () => {
-			if (isFavorite) {
-				toast({
-					description:
-						cryptocurrencyDetail.name + ' removed from collection.',
-				});
-				dispatch(removeFavorite(id));
-			} else {
-				toast({
-					description:
-						cryptocurrencyDetail.name + ' added to collection',
-				});
-				dispatch(addFavorite(id));
-			}
-		};
-
-		return handleFavoriteClick;
-	}
-
-	const handleFavoriteClick = useHandleFavoriteClick(id);
 
 	const cryptocurrencyDetail: CryptocurrencyDetail = useSelector(
 		(state: RootState) => state.cryptocurrency.cryptocurrencyDetail
@@ -90,17 +65,25 @@ function CryptocurrencyDetail() {
 		dispatch(setTimeRange(newTimeRange));
 	};
 
+	const handleFavoriteClick = () => {
+		if (!id) return;
+		if (isFavorite) {
+			toast({ description: cryptocurrencyDetail.name + ' removed from collection.' });
+			dispatch(removeFavorite(id));
+		} else {
+			toast({ description: cryptocurrencyDetail.name + ' added to collection' });
+			dispatch(addFavorite(id));
+		}
+	};
+
 	useEffect(() => {
+		if (!id) return;
 		dispatch(fetchCryptocurrencyDetail(id));
 	}, [dispatch, id]);
 
 	useEffect(() => {
-		dispatch(
-			fetchCryptocurrencyHistory({
-				id: id ?? '',
-				timeRange: timeRange,
-			})
-		);
+		if (!id) return;
+		dispatch(fetchCryptocurrencyHistory({ id, timeRange }));
 	}, [dispatch, id, timeRange]);
 
 	if (status === 'loading') {
