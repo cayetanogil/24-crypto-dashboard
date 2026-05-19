@@ -5,16 +5,39 @@ export type Cryptocurrency = {
 	current_price: number;
 	price_change_percentage_24h: number;
 	image: string;
+	last_updated: string;
 };
 
 export type CryptocurrencyDetail = {
 	id: string;
 	symbol: string;
 	name: string;
-	description: Record<string, unknown>;
-	links: Record<string, unknown>;
-	image: Record<string, unknown>;
-	market_data: Record<string, unknown>;
+	description: {
+		en: string;
+	};
+	links: {
+		homepage: string[];
+		repos_url: {
+			github: string[];
+		};
+		subreddit_url: string;
+		whitepaper: string;
+	};
+	image: {
+		thumb: string;
+		small: string;
+		large: string;
+	};
+	market_data: {
+		current_price: { usd: number };
+		total_volume: { usd: number };
+		market_cap: { usd: number };
+		price_change_percentage_24h: number;
+		circulating_supply: number;
+		total_supply: number | null;
+		max_supply: number | null;
+		last_updated: string;
+	};
 	last_updated: string;
 };
 

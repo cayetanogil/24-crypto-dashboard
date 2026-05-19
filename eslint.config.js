@@ -23,8 +23,10 @@ export default (async () => {
 
 	return [
 		{
+			ignores: ['dist', '.eslintrc.cjs', 'src/components/ui/**'],
+		},
+		{
 			files: ['**/*.{js,jsx,ts,tsx}'],
-			ignores: ['dist', '.eslintrc.cjs'],
 			languageOptions: {
 				parser: tsParser,
 				parserOptions: {

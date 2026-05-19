@@ -18,8 +18,8 @@ import {
 
 interface CryptocurrencyState {
 	cryptocurrencies: Cryptocurrency[];
-	cryptocurrencyDetail: CryptocurrencyDetail | object | void;
-	cryptocurrencyHistory: CryptocurrencyHistory | object | void;
+	cryptocurrencyDetail: CryptocurrencyDetail | null;
+	cryptocurrencyHistory: CryptocurrencyHistory | null;
 	timeRange: string;
 	favorites: string[];
 	status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -41,12 +41,8 @@ function saveFavorites(favorites: string[]) {
 
 const initialState: CryptocurrencyState = {
 	cryptocurrencies: [],
-	cryptocurrencyDetail: {},
-	cryptocurrencyHistory: {
-		market_caps: [],
-		prices: [],
-		total_volumes: [],
-	},
+	cryptocurrencyDetail: null,
+	cryptocurrencyHistory: null,
 	timeRange: '30',
 	favorites: loadFavorites(),
 	status: 'idle',

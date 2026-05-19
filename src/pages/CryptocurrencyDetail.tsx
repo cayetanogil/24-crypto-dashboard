@@ -86,14 +86,13 @@ function CryptocurrencyDetail() {
 		dispatch(fetchCryptocurrencyHistory({ id, timeRange }));
 	}, [dispatch, id, timeRange]);
 
-	if (status === 'loading') {
+	if (status === 'idle' || status === 'loading') {
 		return <p className="text-center text-slate-500">Loading...</p>;
 	}
 
 	return (
 		<div className="p-4">
-			{cryptocurrencyDetail !== undefined &&
-			cryptocurrencyDetail.market_data ? (
+			{cryptocurrencyDetail?.market_data ? (
 				<>
 					<Card>
 						<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
