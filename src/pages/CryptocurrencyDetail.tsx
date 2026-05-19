@@ -84,7 +84,7 @@ function CryptocurrencyDetail() {
 	}
 
 	return (
-		<div className="p-4">
+		<div className="p-4 max-w-5xl mx-auto">
 			{cryptocurrencyDetail?.market_data ? (
 				<>
 					<Card>
@@ -114,8 +114,9 @@ function CryptocurrencyDetail() {
 															: 'bg-red-200 text-red-800 hover:bg-red-300'
 													}`}
 												>
-													%
-													{cryptocurrencyDetail.market_data.price_change_percentage_24h?.toFixed(2) ?? 'N/A'}
+													{cryptocurrencyDetail.market_data.price_change_percentage_24h != null
+														? `${cryptocurrencyDetail.market_data.price_change_percentage_24h >= 0 ? '▲' : '▼'} ${Math.abs(cryptocurrencyDetail.market_data.price_change_percentage_24h).toFixed(2)}%`
+														: 'N/A'}
 												</Badge>
 												<p>
 													<button onClick={handleFavoriteClick}>
@@ -189,7 +190,7 @@ function CryptocurrencyDetail() {
 							<ul className="border-t pt-4 flex flex-row justify-evenly sm:justify-end">
 								<li className="border-r px-4">
 									<div className="text-xs text-slate-500">
-										Circulating Supply
+										Circulating
 									</div>
 									<div className="text-base my-2">
 										{numeral(
@@ -200,7 +201,7 @@ function CryptocurrencyDetail() {
 								</li>
 								<li className="border-r px-4">
 									<div className="text-xs text-slate-500">
-										Total Supply
+										Total
 									</div>
 									<div className="text-base my-2">
 										{numeral(

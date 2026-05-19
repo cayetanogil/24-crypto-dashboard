@@ -17,7 +17,7 @@ interface CryptocurrencyProps {
 
 function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 	return (
-		<Card className="bg-slate-100 hover:scale-105 hover:bg-white transition-all">
+		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-[1.02] transition-all">
 			<CardHeader className="relative p-4 flex flex-row items-center gap-3">
 				<img
 					className="w-10 h-10 mt-2"
@@ -45,7 +45,9 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 								: 'bg-red-200 hover:bg-red-200 text-red-800'
 						}`}
 					>
-						%{crypto.price_change_percentage_24h?.toFixed(2) ?? 'N/A'}
+						{crypto.price_change_percentage_24h != null
+							? `${crypto.price_change_percentage_24h >= 0 ? '▲' : '▼'} ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%`
+							: 'N/A'}
 					</Badge>
 				</div>
 			</CardContent>

@@ -48,7 +48,7 @@ const Sidebar = () => {
 					<li>
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm${isActive ? ' bg-slate-200' : ''}`
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
 							}
 							to="/"
 						>
@@ -59,7 +59,7 @@ const Sidebar = () => {
 					<li>
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm${isActive ? ' bg-slate-200' : ''}`
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-l-2${isActive ? ' bg-slate-200 border-green-600' : ' border-transparent'}`
 							}
 							to="/collection"
 						>

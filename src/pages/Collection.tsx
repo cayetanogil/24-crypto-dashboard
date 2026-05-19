@@ -1,4 +1,6 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { StarIcon } from '@heroicons/react/24/solid';
 import { RootState } from '../store/index';
 import CryptocurrencyList from '../components/CryptocurrencyList';
 import { Cryptocurrency } from '../types';
@@ -26,12 +28,14 @@ const Collection = () => {
 						isGrid={true}
 					/>
 				)}
-			{favoriteCryptocurrencies &&
-				favoriteCryptocurrencies.length === 0 && (
-					<p className="text-center text-slate-500">
-						No favorite coins added yet.
-					</p>
-				)}
+			{favoriteCryptocurrencies.length === 0 && (
+				<div className="flex flex-col items-center gap-3 pt-16 text-slate-500">
+					<StarIcon className="size-12 text-slate-300" />
+					<p className="font-medium text-slate-700">No favorites yet</p>
+					<p className="text-sm">Star a coin on its detail page to add it here.</p>
+					<Link to="/" className="text-sm text-blue-500 hover:underline">Browse coins →</Link>
+				</div>
+			)}
 		</div>
 	);
 };
