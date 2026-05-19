@@ -5,15 +5,12 @@ import { RootState, useAppDispatch } from '../store/index';
 import {
 	addFavorite,
 	removeFavorite,
-} from '../store/slices/cryptocurrencySlice';
-
-import { StarIcon } from '@heroicons/react/24/solid';
-
-import {
 	fetchCryptocurrencyDetail,
 	fetchCryptocurrencyHistory,
 	setTimeRange,
 } from '../store/slices/cryptocurrencySlice';
+
+import { StarIcon } from '@heroicons/react/24/solid';
 
 import parse from 'html-react-parser';
 import numeral from 'numeral';

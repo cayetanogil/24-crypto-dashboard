@@ -8,8 +8,8 @@ export const transformChartData = (
 ): SanitizedCryptocurrencyHistory[] => {
 	return data.prices.map((priceEntry, index) => {
 		const [timestamp, price] = priceEntry;
-		const volume = data.total_volumes[index][1];
-		const marketCap = data.market_caps[index][1];
+		const volume = data.total_volumes[index]?.[1] ?? 0;
+		const marketCap = data.market_caps[index]?.[1] ?? 0;
 
 		const date = new Date(timestamp).toISOString();
 

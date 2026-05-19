@@ -45,21 +45,25 @@ const Sidebar = () => {
 					<li className="uppercase text-xs text-slate-500 pt-0 ml-2 select-none hidden sm:block">
 						Menu
 					</li>
-					<li className="rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 group text-slate-600 bg-slate-200 sm:bg-transparent">
-						<Squares2X2Icon className="size-5 ml-2 group-hover:text-slate-800" />
+					<li>
 						<NavLink
-							className="w-full py-2 sm:py-1 px-2 pl-0 text-sm block group-hover:text-slate-800"
+							className={({ isActive }) =>
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm${isActive ? ' bg-slate-200' : ''}`
+							}
 							to="/"
 						>
+							<Squares2X2Icon className="size-5" />
 							Dashboard
 						</NavLink>
 					</li>
-					<li className="rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 group text-slate-600 bg-slate-200 sm:bg-transparent">
-						<StarIcon className="size-5 ml-2 group-hover:text-slate-800" />
+					<li>
 						<NavLink
-							className="w-full py-2 sm:py-1 px-2 pl-0 text-sm block group-hover:text-slate-800"
+							className={({ isActive }) =>
+								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm${isActive ? ' bg-slate-200' : ''}`
+							}
 							to="/collection"
 						>
+							<StarIcon className="size-5" />
 							Collection
 						</NavLink>
 					</li>

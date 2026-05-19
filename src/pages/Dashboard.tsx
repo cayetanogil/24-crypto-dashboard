@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 const Dashboard = () => {
 	const { cryptocurrencies, status, error } = useCryptocurrencies();
 
-	if (status === 'loading') {
+	if (status === 'idle' || status === 'loading') {
 		return <p className="text-center text-slate-500">Loading...</p>;
 	}
 

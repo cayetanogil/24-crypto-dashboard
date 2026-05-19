@@ -38,11 +38,6 @@ function CryptocurrencyDetailChart({
 		'price' | 'volume' | 'marketCap'
 	>('price');
 
-	const handleTimeChange = (value: string) => {
-		const newTimeRange = value as '7' | '30' | '365';
-		setTimeRange(newTimeRange);
-	};
-
 	return (
 		<div className="pb-4">
 			<div className="flex gap-4 justify-end mb-2">
@@ -65,7 +60,7 @@ function CryptocurrencyDetailChart({
 				</div>
 				<div className="w-1/4">
 					<Select
-						onValueChange={(value) => handleTimeChange(value)}
+						onValueChange={(value) => setTimeRange(value as '7' | '30' | '365')}
 						value={timeRange}
 					>
 						<SelectTrigger>
