@@ -82,6 +82,9 @@ function CryptocurrencyDetail() {
 	const timeRange = useSelector(
 		(state: RootState) => state.cryptocurrency.timeRange
 	);
+	const status = useSelector(
+		(state: RootState) => state.cryptocurrency.status
+	);
 
 	const updateTimeRange = (newTimeRange: '7' | '30' | '365') => {
 		dispatch(setTimeRange(newTimeRange));
@@ -99,6 +102,10 @@ function CryptocurrencyDetail() {
 			})
 		);
 	}, [dispatch, id, timeRange]);
+
+	if (status === 'loading') {
+		return <p className="text-center text-slate-500">Loading...</p>;
+	}
 
 	return (
 		<div className="p-4">
@@ -249,7 +256,7 @@ function CryptocurrencyDetail() {
 									<li>
 										<a
 											className="text-blue-500"
-											target="_blank"
+											target="_blank" rel="noopener noreferrer"
 											href={cryptocurrencyDetail.links.homepage[0]}
 										>
 											Homepage
@@ -260,7 +267,7 @@ function CryptocurrencyDetail() {
 									<li>
 										<a
 											className="text-blue-500"
-											target="_blank"
+											target="_blank" rel="noopener noreferrer"
 											href={
 												cryptocurrencyDetail.links.repos_url.github[0]
 											}
@@ -273,7 +280,7 @@ function CryptocurrencyDetail() {
 									<li>
 										<a
 											className="text-blue-500"
-											target="_blank"
+											target="_blank" rel="noopener noreferrer"
 											href={cryptocurrencyDetail.links.subreddit_url}
 										>
 											Reddit
@@ -284,7 +291,7 @@ function CryptocurrencyDetail() {
 									<li>
 										<a
 											className="text-blue-500"
-											target="_blank"
+											target="_blank" rel="noopener noreferrer"
 											href={cryptocurrencyDetail.links.whitepaper}
 										>
 											Whitepaper
