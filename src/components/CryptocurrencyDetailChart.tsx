@@ -66,7 +66,7 @@ function CryptocurrencyDetailChart({
 				<div className="w-1/4">
 					<Select
 						onValueChange={(value) => handleTimeChange(value)}
-						defaultValue={timeRange}
+						value={timeRange}
 					>
 						<SelectTrigger>
 							<SelectValue />

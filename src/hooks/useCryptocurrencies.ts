@@ -6,7 +6,7 @@ const useCryptocurrencies = () => {
 		(state: RootState) => state.cryptocurrency.cryptocurrencies
 	);
 	const status = useSelector(
-		(state: RootState) => state.cryptocurrency.status
+		(state: RootState) => state.cryptocurrency.listStatus
 	);
 	const error = useSelector(
 		(state: RootState) => state.cryptocurrency.error

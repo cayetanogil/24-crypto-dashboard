@@ -3,7 +3,7 @@ export type Cryptocurrency = {
 	name: string;
 	symbol: string;
 	current_price: number;
-	price_change_percentage_24h: number;
+	price_change_percentage_24h: number | null;
 	image: string;
 	last_updated: string;
 };
@@ -32,7 +32,7 @@ export type CryptocurrencyDetail = {
 		current_price: { usd: number };
 		total_volume: { usd: number };
 		market_cap: { usd: number };
-		price_change_percentage_24h: number;
+		price_change_percentage_24h: number | null;
 		circulating_supply: number;
 		total_supply: number | null;
 		max_supply: number | null;

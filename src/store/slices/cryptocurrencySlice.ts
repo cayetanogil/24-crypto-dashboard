@@ -16,13 +16,17 @@ import {
 	CryptocurrencyHistory,
 } from '../../types';
 
+type Status = 'idle' | 'loading' | 'succeeded' | 'failed';
+
 interface CryptocurrencyState {
 	cryptocurrencies: Cryptocurrency[];
 	cryptocurrencyDetail: CryptocurrencyDetail | null;
 	cryptocurrencyHistory: CryptocurrencyHistory | null;
 	timeRange: string;
 	favorites: string[];
-	status: 'idle' | 'loading' | 'succeeded' | 'failed';
+	listStatus: Status;
+	detailStatus: Status;
+	historyStatus: Status;
 	error: string | null;
 }
 
@@ -45,11 +49,12 @@ const initialState: CryptocurrencyState = {
 	cryptocurrencyHistory: null,
 	timeRange: '30',
 	favorites: loadFavorites(),
-	status: 'idle',
+	listStatus: 'idle',
+	detailStatus: 'idle',
+	historyStatus: 'idle',
 	error: null,
 };
 
-// Async thunk to fetch the list of cryptocurrencies
 export const fetchCryptocurrencies = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencies',
 	async () => {
@@ -58,7 +63,6 @@ export const fetchCryptocurrencies = createAsyncThunk(
 	}
 );
 
-// Async thunk to fetch the list of cryptocurrency details
 export const fetchCryptocurrencyDetail = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencyDetail',
 	async (id: string) => {
@@ -67,7 +71,6 @@ export const fetchCryptocurrencyDetail = createAsyncThunk(
 	}
 );
 
-// Async thunk to fetch the list of cryptocurrency history
 export const fetchCryptocurrencyHistory = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencyHistory',
 	async ({ id, timeRange }: { id: string; timeRange: string }) => {
@@ -97,55 +100,41 @@ const cryptocurrencySlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchCryptocurrencies.pending, (state) => {
-				state.status = 'loading';
+				state.listStatus = 'loading';
 			})
 			.addCase(fetchCryptocurrencies.fulfilled, (state, action) => {
-				state.status = 'succeeded';
+				state.listStatus = 'succeeded';
 				state.cryptocurrencies = action.payload;
 			})
 			.addCase(fetchCryptocurrencies.rejected, (state, action) => {
-				state.status = 'failed';
+				state.listStatus = 'failed';
 				state.error =
 					action.error.message || 'Failed to fetch cryptocurrencies';
 			})
 			.addCase(fetchCryptocurrencyDetail.pending, (state) => {
-				state.status = 'loading';
+				state.detailStatus = 'loading';
 			})
-			.addCase(
-				fetchCryptocurrencyDetail.fulfilled,
-				(state, action) => {
-					state.status = 'succeeded';
-					state.cryptocurrencyDetail = action.payload;
-				}
-			)
-			.addCase(
-				fetchCryptocurrencyDetail.rejected,
-				(state, action) => {
-					state.status = 'failed';
-					state.error =
-						action.error.message ||
-						'Failed to fetch cryptocurrency detail';
-				}
-			)
+			.addCase(fetchCryptocurrencyDetail.fulfilled, (state, action) => {
+				state.detailStatus = 'succeeded';
+				state.cryptocurrencyDetail = action.payload ?? null;
+			})
+			.addCase(fetchCryptocurrencyDetail.rejected, (state, action) => {
+				state.detailStatus = 'failed';
+				state.error =
+					action.error.message || 'Failed to fetch cryptocurrency detail';
+			})
 			.addCase(fetchCryptocurrencyHistory.pending, (state) => {
-				state.status = 'loading';
+				state.historyStatus = 'loading';
 			})
-			.addCase(
-				fetchCryptocurrencyHistory.fulfilled,
-				(state, action) => {
-					state.status = 'succeeded';
-					state.cryptocurrencyHistory = action.payload;
-				}
-			)
-			.addCase(
-				fetchCryptocurrencyHistory.rejected,
-				(state, action) => {
-					state.status = 'failed';
-					state.error =
-						action.error.message ||
-						'Failed to fetch cryptocurrency history';
-				}
-			);
+			.addCase(fetchCryptocurrencyHistory.fulfilled, (state, action) => {
+				state.historyStatus = 'succeeded';
+				state.cryptocurrencyHistory = action.payload ?? null;
+			})
+			.addCase(fetchCryptocurrencyHistory.rejected, (state, action) => {
+				state.historyStatus = 'failed';
+				state.error =
+					action.error.message || 'Failed to fetch cryptocurrency history';
+			});
 	},
 });
 

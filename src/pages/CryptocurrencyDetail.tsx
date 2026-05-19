@@ -33,10 +33,6 @@ import {
 
 import CryptocurrencyDetailChart from '../components/CryptocurrencyDetailChart';
 
-import type {
-	CryptocurrencyDetail,
-	CryptocurrencyHistory,
-} from '../types';
 
 function CryptocurrencyDetail() {
 	const { id } = useParams<{ id: string }>();
@@ -48,17 +44,17 @@ function CryptocurrencyDetail() {
 		state.cryptocurrency.favorites.includes(id ?? '')
 	);
 
-	const cryptocurrencyDetail: CryptocurrencyDetail = useSelector(
+	const cryptocurrencyDetail = useSelector(
 		(state: RootState) => state.cryptocurrency.cryptocurrencyDetail
 	);
-	const cryptocurrencyHistory: CryptocurrencyHistory = useSelector(
+	const cryptocurrencyHistory = useSelector(
 		(state: RootState) => state.cryptocurrency.cryptocurrencyHistory
 	);
 	const timeRange = useSelector(
 		(state: RootState) => state.cryptocurrency.timeRange
 	);
-	const status = useSelector(
-		(state: RootState) => state.cryptocurrency.status
+	const detailStatus = useSelector(
+		(state: RootState) => state.cryptocurrency.detailStatus
 	);
 
 	const updateTimeRange = (newTimeRange: '7' | '30' | '365') => {
@@ -86,7 +82,7 @@ function CryptocurrencyDetail() {
 		dispatch(fetchCryptocurrencyHistory({ id, timeRange }));
 	}, [dispatch, id, timeRange]);
 
-	if (status === 'idle' || status === 'loading') {
+	if (detailStatus === 'idle' || detailStatus === 'loading') {
 		return <p className="text-center text-slate-500">Loading...</p>;
 	}
 
@@ -116,16 +112,13 @@ function CryptocurrencyDetail() {
 											<div className="flex flex-row gap-1">
 												<Badge
 													className={`text-xs font-semibold right select-none ${
-														cryptocurrencyDetail.market_data
-															.price_change_percentage_24h >= 0
+														(cryptocurrencyDetail.market_data.price_change_percentage_24h ?? 0) >= 0
 															? 'bg-green-200 text-green-800 hover:bg-green-300'
 															: 'bg-red-200 text-red-800 hover:bg-red-300'
 													}`}
 												>
 													%
-													{cryptocurrencyDetail.market_data.price_change_percentage_24h.toFixed(
-														2
-													)}
+													{cryptocurrencyDetail.market_data.price_change_percentage_24h?.toFixed(2) ?? 'N/A'}
 												</Badge>
 												<p>
 													<button onClick={handleFavoriteClick}>
