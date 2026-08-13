@@ -18,13 +18,13 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 
-import { CryptocurrencyHistory } from '../types';
+import { CryptocurrencyHistory, TimeRange } from '../types';
 import { transformChartData } from '../lib/transformChartData';
 import CustomTooltip from './ui/customTooltip';
 
 interface CryptocurrencyProps {
-	timeRange: '7' | '30' | '365';
-	setTimeRange: (timeRange: '7' | '30' | '365') => void;
+	timeRange: TimeRange;
+	setTimeRange: (timeRange: TimeRange) => void;
 	data: CryptocurrencyHistory;
 }
 function CryptocurrencyDetailChart({
@@ -60,7 +60,7 @@ function CryptocurrencyDetailChart({
 				</div>
 				<div className="w-1/4">
 					<Select
-						onValueChange={(value) => setTimeRange(value as '7' | '30' | '365')}
+						onValueChange={(value) => setTimeRange(value as TimeRange)}
 						value={timeRange}
 					>
 						<SelectTrigger>

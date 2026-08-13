@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import type { Store } from 'redux';
 import cryptocurrencyReducer from './slices/cryptocurrencySlice';
 
-const store: Store = configureStore({
+const store = configureStore({
 	reducer: {
 		cryptocurrency: cryptocurrencyReducer,
 	},

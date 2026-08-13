@@ -1,10 +1,11 @@
 import numeral from 'numeral';
 import { format } from 'date-fns';
+import { SanitizedCryptocurrencyHistory } from '@/types';
 
 type PayloadType = {
-	date: string;
 	value: number;
 	dataKey: string;
+	payload: SanitizedCryptocurrencyHistory;
 };
 
 type tooltipProps = {

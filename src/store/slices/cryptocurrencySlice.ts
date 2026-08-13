@@ -14,15 +14,16 @@ import {
 	Cryptocurrency,
 	CryptocurrencyDetail,
 	CryptocurrencyHistory,
+	TimeRange,
 } from '../../types';
 
 type Status = 'idle' | 'loading' | 'succeeded' | 'failed';
 
-interface CryptocurrencyState {
+export interface CryptocurrencyState {
 	cryptocurrencies: Cryptocurrency[];
 	cryptocurrencyDetail: CryptocurrencyDetail | null;
 	cryptocurrencyHistory: CryptocurrencyHistory | null;
-	timeRange: string;
+	timeRange: TimeRange;
 	favorites: string[];
 	listStatus: Status;
 	detailStatus: Status;
@@ -73,7 +74,7 @@ export const fetchCryptocurrencyDetail = createAsyncThunk(
 
 export const fetchCryptocurrencyHistory = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencyHistory',
-	async ({ id, timeRange }: { id: string; timeRange: string }) => {
+	async ({ id, timeRange }: { id: string; timeRange: TimeRange }) => {
 		const response = await getCryptocurrencyHistory(id, timeRange);
 		return response;
 	}
@@ -83,7 +84,7 @@ const cryptocurrencySlice = createSlice({
 	name: 'cryptocurrency',
 	initialState,
 	reducers: {
-		setTimeRange(state, action: PayloadAction<string>) {
+		setTimeRange(state, action: PayloadAction<TimeRange>) {
 			state.timeRange = action.payload;
 		},
 		addFavorite: (state, action: PayloadAction<string>) => {

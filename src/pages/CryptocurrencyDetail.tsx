@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../store/index';
+import { TimeRange } from '../types';
 import {
 	addFavorite,
 	removeFavorite,
@@ -54,12 +55,12 @@ function CryptocurrencyDetail() {
 		(state: RootState) => state.cryptocurrency.detailStatus
 	);
 
-	const updateTimeRange = (newTimeRange: '7' | '30' | '365') => {
+	const updateTimeRange = (newTimeRange: TimeRange) => {
 		dispatch(setTimeRange(newTimeRange));
 	};
 
 	const handleFavoriteClick = () => {
-		if (!id) return;
+		if (!id || !cryptocurrencyDetail) return;
 		if (isFavorite) {
 			toast({ description: cryptocurrencyDetail.name + ' removed from collection.' });
 			dispatch(removeFavorite(id));

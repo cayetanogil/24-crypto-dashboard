@@ -17,7 +17,10 @@ const Collection = () => {
 		.map((favorite: string) =>
 			cryptocurrencies.find((crypto: Cryptocurrency) => crypto.id === favorite)
 		)
-		.filter((crypto): crypto is Cryptocurrency => crypto !== undefined);
+		.filter(
+			(crypto: Cryptocurrency | undefined): crypto is Cryptocurrency =>
+				crypto !== undefined
+		);
 
 	return (
 		<div className="p-4 flex-grow">

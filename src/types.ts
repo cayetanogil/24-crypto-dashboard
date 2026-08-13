@@ -1,3 +1,5 @@
+export type TimeRange = '7' | '30' | '365';
+
 export type Cryptocurrency = {
 	id: string;
 	name: string;
