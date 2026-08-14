@@ -40,9 +40,11 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 					</span>
 					<Badge
 						className={`text-xs font-semibold ${
-							(crypto.price_change_percentage_24h ?? 0) >= 0
-								? 'bg-green-200 hover:bg-green-200 text-green-800'
-								: 'bg-red-200 hover:bg-red-200 text-red-800'
+							crypto.price_change_percentage_24h == null
+								? 'bg-slate-200 hover:bg-slate-200 text-slate-600'
+								: crypto.price_change_percentage_24h >= 0
+									? 'bg-green-200 hover:bg-green-200 text-green-800'
+									: 'bg-red-200 hover:bg-red-200 text-red-800'
 						}`}
 					>
 						{crypto.price_change_percentage_24h != null

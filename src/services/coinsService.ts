@@ -53,13 +53,15 @@ export const getCryptocurrencies = async (): Promise<Cryptocurrency[]> => {
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrencies:', error);
-		return getStaleFromCache<Cryptocurrency[]>('cryptocurrencies') ?? [];
+		const stale = getStaleFromCache<Cryptocurrency[]>('cryptocurrencies');
+		if (stale) return stale;
+		throw error;
 	}
 };
 
 export const getCryptocurrencyDetail = async (
 	id: string
-): Promise<CryptocurrencyDetail | void> => {
+): Promise<CryptocurrencyDetail> => {
 	const cacheKey = `${id}_detail`;
 	const cached = getFreshFromCache<CryptocurrencyDetail>(cacheKey);
 	if (cached) return cached;
@@ -70,14 +72,16 @@ export const getCryptocurrencyDetail = async (
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrency detail:', error);
-		return getStaleFromCache<CryptocurrencyDetail>(cacheKey) ?? undefined;
+		const stale = getStaleFromCache<CryptocurrencyDetail>(cacheKey);
+		if (stale) return stale;
+		throw error;
 	}
 };
 
 export const getCryptocurrencyHistory = async (
 	id: string,
 	days: string
-): Promise<CryptocurrencyHistory | void> => {
+): Promise<CryptocurrencyHistory> => {
 	const cacheKey = `${id}_history_${days}`;
 	const cached = getFreshFromCache<CryptocurrencyHistory>(cacheKey);
 	if (cached) return cached;
@@ -90,6 +94,8 @@ export const getCryptocurrencyHistory = async (
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching cryptocurrency history:', error);
-		return getStaleFromCache<CryptocurrencyHistory>(cacheKey) ?? undefined;
+		const stale = getStaleFromCache<CryptocurrencyHistory>(cacheKey);
+		if (stale) return stale;
+		throw error;
 	}
 };

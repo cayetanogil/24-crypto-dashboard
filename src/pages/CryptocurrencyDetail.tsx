@@ -54,6 +54,15 @@ function CryptocurrencyDetail() {
 	const detailStatus = useSelector(
 		(state: RootState) => state.cryptocurrency.detailStatus
 	);
+	const detailError = useSelector(
+		(state: RootState) => state.cryptocurrency.detailError
+	);
+	const historyStatus = useSelector(
+		(state: RootState) => state.cryptocurrency.historyStatus
+	);
+	const historyError = useSelector(
+		(state: RootState) => state.cryptocurrency.historyError
+	);
 
 	const updateTimeRange = (newTimeRange: TimeRange) => {
 		dispatch(setTimeRange(newTimeRange));
@@ -72,16 +81,28 @@ function CryptocurrencyDetail() {
 
 	useEffect(() => {
 		if (!id) return;
-		dispatch(fetchCryptocurrencyDetail(id));
+		const promise = dispatch(fetchCryptocurrencyDetail(id));
+		return () => {
+			promise.abort();
+		};
 	}, [dispatch, id]);
 
 	useEffect(() => {
 		if (!id) return;
-		dispatch(fetchCryptocurrencyHistory({ id, timeRange }));
+		const promise = dispatch(fetchCryptocurrencyHistory({ id, timeRange }));
+		return () => {
+			promise.abort();
+		};
 	}, [dispatch, id, timeRange]);
 
 	if (detailStatus === 'idle' || detailStatus === 'loading') {
 		return <p className="text-center text-slate-500">Loading...</p>;
+	}
+
+	if (detailStatus === 'failed') {
+		return (
+			<p className="text-center text-slate-500">Error: {detailError}</p>
+		);
 	}
 
 	return (
@@ -110,9 +131,11 @@ function CryptocurrencyDetail() {
 											<div className="flex flex-row gap-1">
 												<Badge
 													className={`text-xs font-semibold right select-none ${
-														(cryptocurrencyDetail.market_data.price_change_percentage_24h ?? 0) >= 0
-															? 'bg-green-200 text-green-800 hover:bg-green-300'
-															: 'bg-red-200 text-red-800 hover:bg-red-300'
+														cryptocurrencyDetail.market_data.price_change_percentage_24h == null
+															? 'bg-slate-200 text-slate-600 hover:bg-slate-300'
+															: cryptocurrencyDetail.market_data.price_change_percentage_24h >= 0
+																? 'bg-green-200 text-green-800 hover:bg-green-300'
+																: 'bg-red-200 text-red-800 hover:bg-red-300'
 													}`}
 												>
 													{cryptocurrencyDetail.market_data.price_change_percentage_24h != null
@@ -181,12 +204,18 @@ function CryptocurrencyDetail() {
 							</div>
 						</CardHeader>
 						<CardContent className="p-4 border-b">
-							{cryptocurrencyHistory && (
-								<CryptocurrencyDetailChart
-									timeRange={timeRange}
-									setTimeRange={updateTimeRange}
-									data={cryptocurrencyHistory}
-								/>
+							{historyStatus === 'failed' ? (
+								<p className="text-center text-slate-500 py-8">
+									Error loading price history: {historyError}
+								</p>
+							) : (
+								cryptocurrencyHistory && (
+									<CryptocurrencyDetailChart
+										timeRange={timeRange}
+										setTimeRange={updateTimeRange}
+										data={cryptocurrencyHistory}
+									/>
+								)
 							)}
 							<ul className="border-t pt-4 flex flex-row justify-evenly sm:justify-end">
 								<li className="border-r px-4">
@@ -205,9 +234,11 @@ function CryptocurrencyDetail() {
 										Total
 									</div>
 									<div className="text-base my-2">
-										{numeral(
-											cryptocurrencyDetail.market_data.total_supply
-										).format('0,0')}
+										{cryptocurrencyDetail.market_data.total_supply != null
+											? numeral(
+													cryptocurrencyDetail.market_data.total_supply
+												).format('0,0')
+											: '—'}
 									</div>
 								</li>
 								{cryptocurrencyDetail.market_data.max_supply && (
