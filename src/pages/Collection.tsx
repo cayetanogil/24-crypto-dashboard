@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -13,14 +14,20 @@ const Collection = () => {
 		(state: RootState) => state.cryptocurrency.cryptocurrencies
 	);
 
-	const favoriteCryptocurrencies = favorites
-		.map((favorite: string) =>
-			cryptocurrencies.find((crypto: Cryptocurrency) => crypto.id === favorite)
-		)
-		.filter(
-			(crypto: Cryptocurrency | undefined): crypto is Cryptocurrency =>
-				crypto !== undefined
-		);
+	const favoriteCryptocurrencies = useMemo(
+		() =>
+			favorites
+				.map((favorite: string) =>
+					cryptocurrencies.find(
+						(crypto: Cryptocurrency) => crypto.id === favorite
+					)
+				)
+				.filter(
+					(crypto: Cryptocurrency | undefined): crypto is Cryptocurrency =>
+						crypto !== undefined
+				),
+		[favorites, cryptocurrencies]
+	);
 
 	return (
 		<div className="p-4 flex-grow">

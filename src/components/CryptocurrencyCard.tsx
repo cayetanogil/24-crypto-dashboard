@@ -23,6 +23,7 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 					className="w-10 h-10 mt-2"
 					src={crypto.image}
 					alt={crypto.name}
+					loading="lazy"
 				/>
 				<div className="overflow-hidden truncate">
 					<CardTitle className="text-slate-700 truncate text-xl">

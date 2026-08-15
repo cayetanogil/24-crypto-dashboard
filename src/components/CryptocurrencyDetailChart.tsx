@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import numeral from 'numeral';
 
 import {
@@ -32,7 +32,7 @@ function CryptocurrencyDetailChart({
 	setTimeRange,
 	data,
 }: CryptocurrencyProps) {
-	const chartData = transformChartData(data);
+	const chartData = useMemo(() => transformChartData(data), [data]);
 
 	const [metric, setMetric] = useState<
 		'price' | 'volume' | 'marketCap'
