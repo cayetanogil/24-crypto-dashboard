@@ -41,13 +41,16 @@ function getStaleFromCache<T>(key: string): T | null {
 	return null;
 }
 
-export const getCryptocurrencies = async (): Promise<Cryptocurrency[]> => {
+export const getCryptocurrencies = async (
+	signal?: AbortSignal
+): Promise<Cryptocurrency[]> => {
 	const cached = getFreshFromCache<Cryptocurrency[]>('cryptocurrencies');
 	if (cached) return cached;
 
 	try {
 		const response = await axios.get(`${API_BASE_URL}/coins/markets`, {
 			params: { vs_currency: 'usd' },
+			signal,
 		});
 		saveToCache('cryptocurrencies', response.data);
 		return response.data;
@@ -60,14 +63,17 @@ export const getCryptocurrencies = async (): Promise<Cryptocurrency[]> => {
 };
 
 export const getCryptocurrencyDetail = async (
-	id: string
+	id: string,
+	signal?: AbortSignal
 ): Promise<CryptocurrencyDetail> => {
 	const cacheKey = `${id}_detail`;
 	const cached = getFreshFromCache<CryptocurrencyDetail>(cacheKey);
 	if (cached) return cached;
 
 	try {
-		const response = await axios.get(`${API_BASE_URL}/coins/${id}`);
+		const response = await axios.get(`${API_BASE_URL}/coins/${id}`, {
+			signal,
+		});
 		saveToCache(cacheKey, response.data);
 		return response.data;
 	} catch (error) {
@@ -80,7 +86,8 @@ export const getCryptocurrencyDetail = async (
 
 export const getCryptocurrencyHistory = async (
 	id: string,
-	days: string
+	days: string,
+	signal?: AbortSignal
 ): Promise<CryptocurrencyHistory> => {
 	const cacheKey = `${id}_history_${days}`;
 	const cached = getFreshFromCache<CryptocurrencyHistory>(cacheKey);
@@ -89,6 +96,7 @@ export const getCryptocurrencyHistory = async (
 	try {
 		const response = await axios.get(`${API_BASE_URL}/coins/${id}/market_chart`, {
 			params: { vs_currency: 'usd', days },
+			signal,
 		});
 		saveToCache(cacheKey, response.data);
 		return response.data;

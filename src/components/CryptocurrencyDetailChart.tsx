@@ -25,14 +25,21 @@ import CustomTooltip from './ui/customTooltip';
 interface CryptocurrencyProps {
 	timeRange: TimeRange;
 	setTimeRange: (timeRange: TimeRange) => void;
-	data: CryptocurrencyHistory;
+	data: CryptocurrencyHistory | null;
+	historyStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+	historyError: string | null;
 }
 function CryptocurrencyDetailChart({
 	timeRange,
 	setTimeRange,
 	data,
+	historyStatus,
+	historyError,
 }: CryptocurrencyProps) {
-	const chartData = useMemo(() => transformChartData(data), [data]);
+	const chartData = useMemo(
+		() => (data ? transformChartData(data) : []),
+		[data]
+	);
 
 	const [metric, setMetric] = useState<
 		'price' | 'volume' | 'marketCap'
@@ -41,7 +48,7 @@ function CryptocurrencyDetailChart({
 	return (
 		<div className="pb-4">
 			<div className="flex gap-4 justify-end mb-2">
-				<div className="w-1/4">
+				<div className="w-36">
 					<Select
 						onValueChange={(value) =>
 							setMetric(value as 'price' | 'volume' | 'marketCap')
@@ -58,7 +65,7 @@ function CryptocurrencyDetailChart({
 						</SelectContent>
 					</Select>
 				</div>
-				<div className="w-1/4">
+				<div className="w-36">
 					<Select
 						onValueChange={(value) => setTimeRange(value as TimeRange)}
 						value={timeRange}
@@ -75,47 +82,53 @@ function CryptocurrencyDetailChart({
 				</div>
 			</div>
 
-			<ResponsiveContainer width="100%" height={300}>
-				<AreaChart
-					data={chartData}
-					margin={{ top: 20, right: 0, bottom: 20, left: 20 }}
-				>
-					<defs>
-						<linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-							<stop
-								offset="5%"
-								stopColor="#51A62C"
-								stopOpacity={0.8}
-							/>
-							<stop
-								offset="95%"
-								stopColor="#51A62C"
-								stopOpacity={0}
-							/>
-						</linearGradient>
-					</defs>
-					<CartesianGrid strokeDasharray="3 3" />
-					<YAxis
-						padding={{ top: 20, bottom: 20 }}
-						type="number"
-						domain={['dataMin', 'dataMax']}
-						tickCount={10}
-						tickMargin={10}
-						tickFormatter={(dataPoint: string) =>
-							numeral(dataPoint).format('0.0a')
-						}
-					/>
-					<Tooltip content={<CustomTooltip />} />
+			{historyStatus === 'failed' ? (
+				<p className="text-center text-slate-500 py-8">
+					Error loading price history: {historyError}
+				</p>
+			) : (
+				<ResponsiveContainer width="100%" height={300}>
+					<AreaChart
+						data={chartData}
+						margin={{ top: 20, right: 0, bottom: 20, left: 20 }}
+					>
+						<defs>
+							<linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+								<stop
+									offset="5%"
+									stopColor="hsl(var(--chart-2))"
+									stopOpacity={0.8}
+								/>
+								<stop
+									offset="95%"
+									stopColor="hsl(var(--chart-2))"
+									stopOpacity={0}
+								/>
+							</linearGradient>
+						</defs>
+						<CartesianGrid strokeDasharray="3 3" />
+						<YAxis
+							padding={{ top: 20, bottom: 20 }}
+							type="number"
+							domain={['dataMin', 'dataMax']}
+							tickCount={10}
+							tickMargin={10}
+							tickFormatter={(dataPoint: string) =>
+								numeral(dataPoint).format('0.0a')
+							}
+						/>
+						<Tooltip content={<CustomTooltip />} />
 
-					<Area
-						type="monotone"
-						dataKey={metric}
-						stroke="#31651B"
-						fillOpacity={1}
-						fill="url(#color)"
-					/>
-				</AreaChart>
-			</ResponsiveContainer>
+						<Area
+							type="monotone"
+							dataKey={metric}
+							stroke="hsl(var(--chart-2))"
+							fillOpacity={1}
+							fill="url(#color)"
+						/>
+					</AreaChart>
+				</ResponsiveContainer>
+			)}
 		</div>
 	);
 }

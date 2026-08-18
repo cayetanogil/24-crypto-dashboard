@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../store/index';
 import { TimeRange } from '../types';
@@ -11,7 +11,11 @@ import {
 	setTimeRange,
 } from '../store/slices/cryptocurrencySlice';
 
-import { StarIcon } from '@heroicons/react/24/solid';
+import {
+	CircleStackIcon,
+	ExclamationTriangleIcon,
+	StarIcon,
+} from '@heroicons/react/24/solid';
 
 import parse from 'html-react-parser';
 import numeral from 'numeral';
@@ -30,6 +34,7 @@ import {
 } from '@/components/ui/card';
 
 import CryptocurrencyDetailChart from '../components/CryptocurrencyDetailChart';
+import EmptyState from '../components/EmptyState';
 
 
 function CryptocurrencyDetail() {
@@ -101,7 +106,19 @@ function CryptocurrencyDetail() {
 
 	if (detailStatus === 'failed') {
 		return (
-			<p className="text-center text-slate-500">Error: {detailError}</p>
+			<EmptyState
+				icon={<ExclamationTriangleIcon className="size-12 text-slate-300" />}
+				title="Couldn't load this coin"
+				description={detailError ?? undefined}
+				action={
+					<button
+						onClick={() => id && dispatch(fetchCryptocurrencyDetail(id))}
+						className="text-sm text-blue-500 hover:underline"
+					>
+						Try again
+					</button>
+				}
+			/>
 		);
 	}
 
@@ -124,7 +141,7 @@ function CryptocurrencyDetail() {
 												<h1 className="text-3xl font-bold text-slate-800">
 													{cryptocurrencyDetail.name}
 												</h1>
-												<p className="uppercase text-sm font-medium text-slate-700">
+												<p className="uppercase tracking-wide text-sm font-medium text-slate-700">
 													{cryptocurrencyDetail.symbol}
 												</p>
 											</div>
@@ -158,7 +175,7 @@ function CryptocurrencyDetail() {
 									</div>
 									<ul className="flex flex-row w-full lg:w-auto border-t mt-2 pt-3 lg:border-t-0 lg:mt-0 lg:pt-0">
 										<li className="border-r flex-1 lg:flex-none pr-4 lg:px-4 text-center lg:text-left">
-											<div className="uppercase text-xs font-normal text-slate-500 block">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
 												Current Price
 											</div>
 											<div className="font-bold text-2xl">
@@ -170,7 +187,7 @@ function CryptocurrencyDetail() {
 											</div>
 										</li>
 										<li className="border-r flex-1 lg:flex-none px-4 text-center lg:text-left">
-											<div className="uppercase text-xs font-normal text-slate-500 block">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
 												Volume
 											</div>
 											<div className="font-bold text-2xl uppercase">
@@ -181,7 +198,7 @@ function CryptocurrencyDetail() {
 											</div>
 										</li>
 										<li className="flex-1 lg:flex-none pl-4 text-center lg:text-left">
-											<div className="uppercase text-xs font-normal text-slate-500 block">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
 												Market Cap
 											</div>
 											<div className="font-bold text-2xl uppercase">
@@ -196,7 +213,7 @@ function CryptocurrencyDetail() {
 								</CardTitle>
 								<CardDescription>
 									{cryptocurrencyDetail.description.en !== '' && (
-										<p className="pt-4 text-pretty line-clamp-3 leading-relaxed border-t">
+										<p className="pt-4 max-w-prose text-pretty line-clamp-3 leading-relaxed border-t">
 											{parse(cryptocurrencyDetail.description.en)}
 										</p>
 									)}
@@ -204,25 +221,21 @@ function CryptocurrencyDetail() {
 							</div>
 						</CardHeader>
 						<CardContent className="p-4 border-b">
-							{historyStatus === 'failed' ? (
-								<p className="text-center text-slate-500 py-8">
-									Error loading price history: {historyError}
-								</p>
-							) : (
-								cryptocurrencyHistory && (
-									<CryptocurrencyDetailChart
-										timeRange={timeRange}
-										setTimeRange={updateTimeRange}
-										data={cryptocurrencyHistory}
-									/>
-								)
+							{(cryptocurrencyHistory || historyStatus === 'failed') && (
+								<CryptocurrencyDetailChart
+									timeRange={timeRange}
+									setTimeRange={updateTimeRange}
+									data={cryptocurrencyHistory}
+									historyStatus={historyStatus}
+									historyError={historyError}
+								/>
 							)}
 							<ul className="border-t pt-4 flex flex-row justify-evenly sm:justify-end">
 								<li className="border-r px-4">
 									<div className="text-xs text-slate-500">
 										Circulating
 									</div>
-									<div className="text-base my-2">
+									<div className="text-base font-semibold my-2">
 										{numeral(
 											cryptocurrencyDetail.market_data
 												.circulating_supply
@@ -233,7 +246,7 @@ function CryptocurrencyDetail() {
 									<div className="text-xs text-slate-500">
 										Total
 									</div>
-									<div className="text-base my-2">
+									<div className="text-base font-semibold my-2">
 										{cryptocurrencyDetail.market_data.total_supply != null
 											? numeral(
 													cryptocurrencyDetail.market_data.total_supply
@@ -246,7 +259,7 @@ function CryptocurrencyDetail() {
 										<div className="text-xs text-slate-500">
 											Max Supply
 										</div>
-										<div className="text-base my-2">
+										<div className="text-base font-semibold my-2">
 											{numeral(
 												cryptocurrencyDetail.market_data.max_supply
 											).format('0,0')}
@@ -305,7 +318,7 @@ function CryptocurrencyDetail() {
 								)}
 							</ul>
 
-							<p className="text-sm text-slate-500 font-semi pt-4 sm:pt-0">
+							<p className="text-sm text-slate-500 font-semibold pt-4 sm:pt-0">
 								Last Updated:{' '}
 								{format(
 									new Date(
@@ -318,7 +331,15 @@ function CryptocurrencyDetail() {
 					</Card>
 				</>
 			) : (
-				<p className="text-center text-slate-500">No data found.</p>
+				<EmptyState
+					icon={<CircleStackIcon className="size-12 text-slate-300" />}
+					title="No data found"
+					action={
+						<Link to="/" className="text-sm text-blue-500 hover:underline">
+							Back to dashboard →
+						</Link>
+					}
+				/>
 			)}
 		</div>
 	);

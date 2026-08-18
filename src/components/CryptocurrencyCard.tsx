@@ -17,7 +17,7 @@ interface CryptocurrencyProps {
 
 function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 	return (
-		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-[1.02] transition-all">
+		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
 			<CardHeader className="relative p-4 flex flex-row items-center gap-3">
 				<img
 					className="w-10 h-10 mt-2"
@@ -26,17 +26,17 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 					loading="lazy"
 				/>
 				<div className="overflow-hidden truncate">
-					<CardTitle className="text-slate-700 truncate text-xl">
+					<CardTitle className="text-slate-700 truncate text-xl font-medium">
 						{crypto.name}
 					</CardTitle>
-					<CardDescription className="uppercase text-sm">
+					<CardDescription className="uppercase tracking-wide text-sm">
 						{crypto.symbol}
 					</CardDescription>
 				</div>
 			</CardHeader>
 			<CardContent className="p-4 pt-0">
 				<div className="text-2xl text-slate-700 text-left">
-					<span className="block">
+					<span className="block font-bold">
 						${numeral(crypto.current_price).format('0,0.00')}
 					</span>
 					<Badge

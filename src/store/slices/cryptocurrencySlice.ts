@@ -62,24 +62,27 @@ const initialState: CryptocurrencyState = {
 
 export const fetchCryptocurrencies = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencies',
-	async () => {
-		const response = await getCryptocurrencies();
+	async (_: void, { signal }) => {
+		const response = await getCryptocurrencies(signal);
 		return response;
 	}
 );
 
 export const fetchCryptocurrencyDetail = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencyDetail',
-	async (id: string) => {
-		const response = await getCryptocurrencyDetail(id);
+	async (id: string, { signal }) => {
+		const response = await getCryptocurrencyDetail(id, signal);
 		return response;
 	}
 );
 
 export const fetchCryptocurrencyHistory = createAsyncThunk(
 	'cryptocurrency/fetchCryptocurrencyHistory',
-	async ({ id, timeRange }: { id: string; timeRange: TimeRange }) => {
-		const response = await getCryptocurrencyHistory(id, timeRange);
+	async (
+		{ id, timeRange }: { id: string; timeRange: TimeRange },
+		{ signal }
+	) => {
+		const response = await getCryptocurrencyHistory(id, timeRange, signal);
 		return response;
 	}
 );

@@ -1,8 +1,16 @@
+import {
+	CircleStackIcon,
+	ExclamationTriangleIcon,
+} from '@heroicons/react/24/solid';
 import CryptocurrencyList from '../components/CryptocurrencyList';
+import EmptyState from '../components/EmptyState';
 import useCryptocurrencies from '../hooks/useCryptocurrencies';
+import { useAppDispatch } from '../store';
+import { fetchCryptocurrencies } from '../store/slices/cryptocurrencySlice';
 import { format } from 'date-fns';
 
 const Dashboard = () => {
+	const dispatch = useAppDispatch();
 	const { cryptocurrencies, status, error } = useCryptocurrencies();
 
 	if (status === 'idle' || status === 'loading') {
@@ -11,12 +19,24 @@ const Dashboard = () => {
 
 	if (status === 'failed') {
 		return (
-			<p className="text-center text-slate-500">Error: {error}</p>
+			<EmptyState
+				icon={<ExclamationTriangleIcon className="size-12 text-slate-300" />}
+				title="Something went wrong"
+				description={error ?? undefined}
+				action={
+					<button
+						onClick={() => dispatch(fetchCryptocurrencies())}
+						className="text-sm text-blue-500 hover:underline"
+					>
+						Try again
+					</button>
+				}
+			/>
 		);
 	}
 
 	return (
-		<div className="p-4 flex-grow">
+		<div className="p-4 grow max-w-400 mx-auto">
 			{cryptocurrencies && cryptocurrencies.length > 0 && (
 				<>
 					<CryptocurrencyList
@@ -34,7 +54,10 @@ const Dashboard = () => {
 				</>
 			)}
 			{cryptocurrencies.length == 0 && (
-				<p className="text-center text-slate-500">No data found.</p>
+				<EmptyState
+					icon={<CircleStackIcon className="size-12 text-slate-300" />}
+					title="No cryptocurrencies found"
+				/>
 			)}
 		</div>
 	);

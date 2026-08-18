@@ -16,7 +16,7 @@ type tooltipProps = {
 const CustomTooltip = ({ active, payload }: tooltipProps) => {
 	if (active && payload && payload.length) {
 		return (
-			<div className="bg-white rounded p-3 shadow border">
+			<div className="bg-white rounded p-3 shadow">
 				<div className="label">
 					<p className="text-xs text-slate-500 mb-2">
 						{format(
@@ -26,12 +26,12 @@ const CustomTooltip = ({ active, payload }: tooltipProps) => {
 					</p>
 					{(payload[0].dataKey == 'price' ||
 						payload[0].dataKey == 'marketCap') && (
-						<p className="text-md">
+						<p className="text-base">
 							${numeral(payload[0].value).format('0,0.00')}
 						</p>
 					)}
 					{payload[0].dataKey == 'volume' && (
-						<p className="text-md">
+						<p className="text-base">
 							{numeral(payload[0].value).format('0,0.00')}
 						</p>
 					)}

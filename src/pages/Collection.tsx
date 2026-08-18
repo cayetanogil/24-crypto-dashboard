@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { RootState } from '../store/index';
 import CryptocurrencyList from '../components/CryptocurrencyList';
+import EmptyState from '../components/EmptyState';
 import { Cryptocurrency } from '../types';
 
 const Collection = () => {
@@ -30,7 +31,7 @@ const Collection = () => {
 	);
 
 	return (
-		<div className="p-4 flex-grow">
+		<div className="p-4 grow max-w-400 mx-auto">
 			{favoriteCryptocurrencies &&
 				favoriteCryptocurrencies.length > 0 && (
 					<CryptocurrencyList
@@ -39,12 +40,16 @@ const Collection = () => {
 					/>
 				)}
 			{favoriteCryptocurrencies.length === 0 && (
-				<div className="flex flex-col items-center gap-3 pt-16 text-slate-500">
-					<StarIcon className="size-12 text-slate-300" />
-					<p className="font-medium text-slate-700">No favorites yet</p>
-					<p className="text-sm">Star a coin on its detail page to add it here.</p>
-					<Link to="/" className="text-sm text-blue-500 hover:underline">Browse coins →</Link>
-				</div>
+				<EmptyState
+					icon={<StarIcon className="size-12 text-slate-300" />}
+					title="No favorites yet"
+					description="Star a coin on its detail page to add it here."
+					action={
+						<Link to="/" className="text-sm text-blue-500 hover:underline">
+							Browse coins →
+						</Link>
+					}
+				/>
 			)}
 		</div>
 	);
