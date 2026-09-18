@@ -36,7 +36,7 @@ const Dashboard = () => {
 	}
 
 	return (
-		<div className="p-4 grow max-w-400 mx-auto">
+		<div className="p-4 grow max-w-400">
 			{cryptocurrencies && cryptocurrencies.length > 0 && (
 				<>
 					<CryptocurrencyList

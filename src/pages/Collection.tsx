@@ -31,7 +31,7 @@ const Collection = () => {
 	);
 
 	return (
-		<div className="p-4 grow max-w-400 mx-auto">
+		<div className="p-4 grow max-w-400">
 			{favoriteCryptocurrencies &&
 				favoriteCryptocurrencies.length > 0 && (
 					<CryptocurrencyList
