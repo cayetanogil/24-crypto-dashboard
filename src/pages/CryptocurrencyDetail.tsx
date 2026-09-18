@@ -34,7 +34,6 @@ import {
 
 import CryptocurrencyDetailChart from '../components/CryptocurrencyDetailChart';
 import EmptyState from '../components/EmptyState';
-import { formatDateTime } from '../lib/formatDate';
 
 function CryptocurrencyDetail() {
 	const { id } = useParams<{ id: string }>();
@@ -293,7 +292,7 @@ function CryptocurrencyDetail() {
 								)}
 							</ul>
 						</CardContent>
-						<CardFooter className="p-4 flex flex-col sm:flex-row sm:justify-between ">
+						<CardFooter className="p-4">
 							<ul className="text-sm">
 								{footerLinks.map((link, index) => (
 									<li key={link.label} className="inline">
@@ -316,13 +315,6 @@ function CryptocurrencyDetail() {
 									</li>
 								))}
 							</ul>
-
-							<p className="text-sm text-slate-500 pt-4 sm:pt-0">
-								Last Updated:{' '}
-								{formatDateTime(
-									cryptocurrencyDetail.market_data.last_updated
-								)}
-							</p>
 						</CardFooter>
 					</Card>
 				</>

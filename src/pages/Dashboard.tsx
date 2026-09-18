@@ -7,7 +7,6 @@ import EmptyState from '../components/EmptyState';
 import useCryptocurrencies from '../hooks/useCryptocurrencies';
 import { useAppDispatch } from '../store';
 import { fetchCryptocurrencies } from '../store/slices/cryptocurrencySlice';
-import { formatDateTime } from '../lib/formatDate';
 
 const Dashboard = () => {
 	const dispatch = useAppDispatch();
@@ -38,17 +37,11 @@ const Dashboard = () => {
 	return (
 		<div className="p-4 grow max-w-400">
 			{cryptocurrencies && cryptocurrencies.length > 0 && (
-				<>
-					<CryptocurrencyList
-						cryptocurrencies={cryptocurrencies}
-						isGrid={true}
-						limit={15}
-					/>
-					<p className="text-sm text-slate-500 text-right py-4">
-						Last Updated:{' '}
-						{formatDateTime(cryptocurrencies[0].last_updated)}
-					</p>
-				</>
+				<CryptocurrencyList
+					cryptocurrencies={cryptocurrencies}
+					isGrid={true}
+					limit={15}
+				/>
 			)}
 			{cryptocurrencies.length == 0 && (
 				<EmptyState
