@@ -22,11 +22,14 @@ import {
 
 import { CryptocurrencyHistory, TimeRange } from '../types';
 import { transformChartData } from '../lib/transformChartData';
+import { getNiceTicks } from '../lib/niceTicks';
 import CustomTooltip from './ui/customTooltip';
 
 const UP_COLOR = '#16a34a';
 const DOWN_COLOR = '#dc2626';
 const X_AXIS_TICK_COUNT = 6;
+const Y_AXIS_TICK_COUNT = 6;
+const AXIS_TICK_STYLE = { fontSize: 12, fill: '#64748b' };
 
 interface CryptocurrencyProps {
 	timeRange: TimeRange;
@@ -70,6 +73,16 @@ function CryptocurrencyDetailChart({
 
 	const xAxisTickFormatter = (dateString: string) =>
 		format(new Date(dateString), timeRange === '365' ? 'MMM yyyy' : 'MMM d');
+
+	const yAxisTicks = useMemo(() => {
+		if (chartData.length === 0) return [];
+		const values = chartData.map((point) => point[metric]);
+		return getNiceTicks(
+			Math.min(...values),
+			Math.max(...values),
+			Y_AXIS_TICK_COUNT
+		);
+	}, [chartData, metric]);
 
 	// Color the line by whether the metric rose or fell over the visible range.
 	const trendColor = useMemo(() => {
@@ -152,18 +165,21 @@ function CryptocurrencyDetailChart({
 								dataKey="date"
 								ticks={xAxisTicks}
 								tickFormatter={xAxisTickFormatter}
+								tick={AXIS_TICK_STYLE}
 								tickMargin={10}
 								tickLine={false}
 								axisLine={false}
 							/>
 							<YAxis
-								padding={{ top: 20, bottom: 20 }}
 								type="number"
-								domain={['dataMin', 'dataMax']}
-								tickCount={10}
+								domain={[yAxisTicks[0], yAxisTicks[yAxisTicks.length - 1]]}
+								ticks={yAxisTicks}
+								tick={AXIS_TICK_STYLE}
 								tickMargin={10}
-								tickFormatter={(dataPoint: string) =>
-									numeral(dataPoint).format('0.00a')
+								tickLine={false}
+								axisLine={false}
+								tickFormatter={(dataPoint: number) =>
+									numeral(dataPoint).format('0.[00]a')
 								}
 							/>
 							<Tooltip content={<CustomTooltip timeRange={timeRange} />} />
