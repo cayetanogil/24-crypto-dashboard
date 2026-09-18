@@ -144,7 +144,7 @@ function CryptocurrencyDetailChart({
 					<ResponsiveContainer width="100%" height={300}>
 						<AreaChart
 							data={chartData}
-							margin={{ top: 20, right: 0, bottom: 10, left: 20 }}
+							margin={{ top: 20, right: 0, bottom: 10, left: 0 }}
 						>
 							<defs>
 								<linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
