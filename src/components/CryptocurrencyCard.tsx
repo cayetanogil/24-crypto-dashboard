@@ -24,7 +24,7 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 	);
 
 	return (
-		<Card className="relative bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
+		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
 			<CardHeader className="relative p-4 flex flex-row items-center gap-3">
 				<img
 					className="w-10 h-10 mt-2"
@@ -46,24 +46,26 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 					<span className="block font-bold">
 						${numeral(crypto.current_price).format('0,0.00')}
 					</span>
-					<Badge
-						className={`text-xs font-semibold ${
-							crypto.price_change_percentage_24h == null
-								? 'bg-slate-200 hover:bg-slate-200 text-slate-600'
-								: crypto.price_change_percentage_24h >= 0
-									? 'bg-green-200 hover:bg-green-200 text-green-800'
-									: 'bg-red-200 hover:bg-red-200 text-red-800'
-						}`}
-					>
-						{crypto.price_change_percentage_24h != null
-							? `${crypto.price_change_percentage_24h >= 0 ? '▲' : '▼'} ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%`
-							: 'N/A'}
-					</Badge>
+					<div className="flex items-center justify-between">
+						<Badge
+							className={`text-xs font-semibold ${
+								crypto.price_change_percentage_24h == null
+									? 'bg-slate-200 hover:bg-slate-200 text-slate-600'
+									: crypto.price_change_percentage_24h >= 0
+										? 'bg-green-200 hover:bg-green-200 text-green-800'
+										: 'bg-red-200 hover:bg-red-200 text-red-800'
+							}`}
+						>
+							{crypto.price_change_percentage_24h != null
+								? `${crypto.price_change_percentage_24h >= 0 ? '▲' : '▼'} ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%`
+								: 'N/A'}
+						</Badge>
+						{isFavorite && (
+							<StarIcon className="size-5 text-amber-400" />
+						)}
+					</div>
 				</div>
 			</CardContent>
-			{isFavorite && (
-				<StarIcon className="absolute bottom-3 right-3 size-5 text-amber-400" />
-			)}
 		</Card>
 	);
 }
