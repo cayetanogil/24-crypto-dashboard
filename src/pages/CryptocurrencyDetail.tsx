@@ -153,7 +153,7 @@ function CryptocurrencyDetail() {
 					<Card>
 						<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
 							<div className="flex flex-1 flex-col justify-center p-4 min-w-0">
-								<CardTitle className="flex flex-col lg:flex-row items-start lg:items-center justify-between">
+								<CardTitle className="flex flex-col lg:flex-row items-start lg:items-center justify-between pb-2">
 									<div className="flex flex-row items-center gap-3">
 										<img
 											className="w-10 h-10"
