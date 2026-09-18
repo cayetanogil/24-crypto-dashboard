@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -33,6 +34,12 @@ const Sidebar = () => {
 		(state: RootState) => state.cryptocurrency.cryptocurrencies
 	);
 	const navigate = useNavigate();
+
+	const sortedCryptocurrencies = useMemo(
+		() =>
+			[...cryptocurrencies].sort((a, b) => a.name.localeCompare(b.name)),
+		[cryptocurrencies]
+	);
 
 	const handleCoinChange = (value: string) => {
 		navigate(`/coins/${value}`);
@@ -91,7 +98,7 @@ const Sidebar = () => {
 												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
-												{cryptocurrencies.map(
+												{sortedCryptocurrencies.map(
 													(crypto: Cryptocurrency) => (
 														<SelectItem
 															key={crypto.id}
@@ -139,7 +146,7 @@ const Sidebar = () => {
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											{cryptocurrencies.map(
+											{sortedCryptocurrencies.map(
 												(crypto: Cryptocurrency) => (
 													<SelectItem
 														key={crypto.id}
