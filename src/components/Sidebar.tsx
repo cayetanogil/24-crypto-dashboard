@@ -48,14 +48,14 @@ const Sidebar = () => {
 	return (
 		<aside className="flex w-full sm:w-48 sm:shrink-0 bg-slate-100 border-r overflow-y-auto">
 			<nav className="p-4 w-full">
-				<ul className="sm:pb-3 sm:border-b flex flex-row gap-2 sm:flex-col sm:justify-normal justify-around">
+				<ul className="sm:pb-3 sm:border-b flex flex-row sm:flex-col sm:justify-normal">
 					<li className="uppercase tracking-wide text-xs text-slate-500 pt-0 ml-2 select-none hidden sm:block">
 						Menu
 					</li>
-					<li>
+					<li className="flex-1 sm:flex-none">
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2 ${isActive ? 'bg-slate-200 border-blue-500' : 'border-transparent'}`
+								`w-full rounded hover:bg-slate-200 transition-all flex flex-row items-center justify-center sm:justify-start gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2 ${isActive ? 'bg-slate-200 border-blue-500' : 'border-transparent'}`
 							}
 							to="/"
 						>
@@ -63,10 +63,10 @@ const Sidebar = () => {
 							Dashboard
 						</NavLink>
 					</li>
-					<li>
+					<li className="flex-1 sm:flex-none">
 						<NavLink
 							className={({ isActive }) =>
-								`rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2 ${isActive ? 'bg-slate-200 border-blue-500' : 'border-transparent'}`
+								`w-full rounded hover:bg-slate-200 transition-all flex flex-row items-center justify-center sm:justify-start gap-2 text-slate-600 hover:text-slate-800 py-2 sm:py-1 px-2 text-sm border-b-2 sm:border-b-0 sm:border-l-2 ${isActive ? 'bg-slate-200 border-blue-500' : 'border-transparent'}`
 							}
 							to="/collection"
 						>
@@ -75,9 +75,9 @@ const Sidebar = () => {
 						</NavLink>
 					</li>
 					{cryptocurrencies && cryptocurrencies.length > 0 && (
-						<li>
+						<li className="flex-1 sm:flex-none">
 							<Drawer>
-								<DrawerTrigger className="sm:hidden rounded hover:bg-slate-200 transition-all flex flex-row items-center gap-2 text-slate-600 hover:text-slate-800 py-2 px-2 text-sm border-b-2 border-transparent">
+								<DrawerTrigger className="sm:hidden rounded hover:bg-slate-200 transition-all flex flex-row items-center justify-center gap-2 w-full text-slate-600 hover:text-slate-800 py-2 px-2 text-sm border-b-2 border-transparent">
 									<CircleStackIcon className="size-5" />
 									Coins
 								</DrawerTrigger>
