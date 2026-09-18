@@ -197,7 +197,7 @@ function CryptocurrencyDetail() {
 														<StarIcon
 															className={`size-5 ${
 																isFavorite
-																	? 'text-slate-800'
+																	? 'text-amber-400'
 																	: 'text-slate-300'
 															}`}
 														/>

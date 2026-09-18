@@ -1,4 +1,5 @@
 import numeral from 'numeral';
+import { useSelector } from 'react-redux';
 
 import {
 	Card,
@@ -8,7 +9,9 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { StarIcon } from '@heroicons/react/24/solid';
 
+import { RootState } from '@/store';
 import { Cryptocurrency } from '../types';
 
 interface CryptocurrencyProps {
@@ -16,8 +19,12 @@ interface CryptocurrencyProps {
 }
 
 function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
+	const isFavorite = useSelector((state: RootState) =>
+		state.cryptocurrency.favorites.includes(crypto.id)
+	);
+
 	return (
-		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
+		<Card className="relative bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
 			<CardHeader className="relative p-4 flex flex-row items-center gap-3">
 				<img
 					className="w-10 h-10 mt-2"
@@ -54,6 +61,9 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 					</Badge>
 				</div>
 			</CardContent>
+			{isFavorite && (
+				<StarIcon className="absolute bottom-3 right-3 size-5 text-amber-400" />
+			)}
 		</Card>
 	);
 }
