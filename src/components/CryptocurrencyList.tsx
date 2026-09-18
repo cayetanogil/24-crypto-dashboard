@@ -37,7 +37,7 @@ function CryptocurrencyList({
 					{cryptocurrencies.slice(0, limit).map((crypto) => (
 						<li
 							key={crypto.id}
-							className="mb-2 rounded py-1 px-2 text-slate-600 hover:text-slate-800 hover:bg-white transition-all"
+							className="mb-2 rounded py-1 px-2 border-l-2 border-transparent text-slate-600 hover:text-slate-800 hover:bg-white transition-all"
 						>
 							<NavLink
 								to={`/coins/${crypto.id}`}
