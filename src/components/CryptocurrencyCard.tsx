@@ -27,7 +27,7 @@ function CryptocurrencyCard({ data: crypto }: CryptocurrencyProps) {
 		<Card className="bg-white shadow-sm hover:shadow-md hover:scale-105 transition-all">
 			<CardHeader className="relative p-4 flex flex-row items-center gap-3">
 				<img
-					className="w-10 h-10 mt-2"
+					className="w-10 h-10"
 					src={crypto.image}
 					alt={crypto.name}
 					loading="lazy"

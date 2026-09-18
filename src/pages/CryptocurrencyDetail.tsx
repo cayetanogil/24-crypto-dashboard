@@ -19,7 +19,6 @@ import {
 
 import parse from 'html-react-parser';
 import numeral from 'numeral';
-import { format } from 'date-fns';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Badge } from '@/components/ui/badge';
@@ -35,14 +34,7 @@ import {
 
 import CryptocurrencyDetailChart from '../components/CryptocurrencyDetailChart';
 import EmptyState from '../components/EmptyState';
-
-function getTimeZoneAbbreviation(date: Date): string {
-	return (
-		new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
-			.formatToParts(date)
-			.find((part) => part.type === 'timeZoneName')?.value ?? ''
-	);
-}
+import { formatDateTime } from '../lib/formatDate';
 
 function CryptocurrencyDetail() {
 	const { id } = useParams<{ id: string }>();
@@ -180,7 +172,7 @@ function CryptocurrencyDetail() {
 											</div>
 											<div className="flex flex-row gap-1">
 												<Badge
-													className={`text-xs font-semibold right select-none ${
+													className={`text-xs font-semibold select-none ${
 														cryptocurrencyDetail.market_data.price_change_percentage_24h == null
 															? 'bg-slate-200 text-slate-600 hover:bg-slate-300'
 															: cryptocurrencyDetail.market_data.price_change_percentage_24h >= 0
@@ -264,8 +256,8 @@ function CryptocurrencyDetail() {
 								/>
 							)}
 							<ul className="border-t pt-4 flex flex-row justify-evenly sm:justify-end">
-								<li className="border-r px-4">
-									<div className="text-xs text-slate-500">
+								<li className="border-r pr-3 sm:px-4">
+									<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 										Circulating
 									</div>
 									<div className="text-base font-semibold my-2">
@@ -275,8 +267,8 @@ function CryptocurrencyDetail() {
 										).format('0,0')}
 									</div>
 								</li>
-								<li className="border-r px-4">
-									<div className="text-xs text-slate-500">
+								<li className="border-r px-3 sm:px-4">
+									<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 										Total
 									</div>
 									<div className="text-base font-semibold my-2">
@@ -288,8 +280,8 @@ function CryptocurrencyDetail() {
 									</div>
 								</li>
 								{cryptocurrencyDetail.market_data.max_supply && (
-									<li className="px-4">
-										<div className="text-xs text-slate-500">
+									<li className="pl-3 sm:px-4">
+										<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 											Max Supply
 										</div>
 										<div className="text-base font-semibold my-2">
@@ -327,16 +319,8 @@ function CryptocurrencyDetail() {
 
 							<p className="text-sm text-slate-500 pt-4 sm:pt-0">
 								Last Updated:{' '}
-								{format(
-									new Date(
-										cryptocurrencyDetail.market_data.last_updated
-									),
-									'yyyy/MM/dd HH:mm:ss'
-								)}{' '}
-								{getTimeZoneAbbreviation(
-									new Date(
-										cryptocurrencyDetail.market_data.last_updated
-									)
+								{formatDateTime(
+									cryptocurrencyDetail.market_data.last_updated
 								)}
 							</p>
 						</CardFooter>

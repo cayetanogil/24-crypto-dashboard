@@ -94,7 +94,7 @@ const Sidebar = () => {
 												handleCoinChange(value)
 											}
 										>
-											<SelectTrigger className="w-[180px]">
+											<SelectTrigger className="w-48">
 												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
@@ -142,7 +142,7 @@ const Sidebar = () => {
 									<Select
 										onValueChange={(value) => handleCoinChange(value)}
 									>
-										<SelectTrigger className="w-[180px]">
+										<SelectTrigger className="w-48">
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>

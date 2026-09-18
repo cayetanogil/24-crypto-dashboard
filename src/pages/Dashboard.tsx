@@ -7,7 +7,7 @@ import EmptyState from '../components/EmptyState';
 import useCryptocurrencies from '../hooks/useCryptocurrencies';
 import { useAppDispatch } from '../store';
 import { fetchCryptocurrencies } from '../store/slices/cryptocurrencySlice';
-import { format } from 'date-fns';
+import { formatDateTime } from '../lib/formatDate';
 
 const Dashboard = () => {
 	const dispatch = useAppDispatch();
@@ -46,10 +46,7 @@ const Dashboard = () => {
 					/>
 					<p className="text-sm text-slate-500 text-right py-4">
 						Last Updated:{' '}
-						{format(
-							new Date(cryptocurrencies[0].last_updated),
-							'yyyy-MM-dd HH:mm:ss'
-						)}
+						{formatDateTime(cryptocurrencies[0].last_updated)}
 					</p>
 				</>
 			)}

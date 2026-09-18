@@ -41,9 +41,15 @@ function CryptocurrencyList({
 						>
 							<NavLink
 								to={`/coins/${crypto.id}`}
-								className="w-full block"
+								className="flex flex-row items-center gap-2 w-full"
 							>
-								{crypto.name}
+								<img
+									className="size-5 shrink-0"
+									src={crypto.image}
+									alt=""
+									loading="lazy"
+								/>
+								<span className="truncate">{crypto.name}</span>
 							</NavLink>
 						</li>
 					))}

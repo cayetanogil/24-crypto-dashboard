@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import { format } from 'date-fns';
+import { formatDateTime } from '@/lib/formatDate';
 import { SanitizedCryptocurrencyHistory } from '@/types';
 
 type PayloadType = {
@@ -19,10 +19,7 @@ const CustomTooltip = ({ active, payload }: tooltipProps) => {
 			<div className="bg-white rounded p-3 shadow">
 				<div className="label">
 					<p className="text-xs text-slate-500 mb-2">
-						{format(
-							new Date(payload[0].payload.date),
-							'yyyy-MM-dd HH:mm:ss'
-						)}
+						{formatDateTime(payload[0].payload.date)}
 					</p>
 					{(payload[0].dataKey == 'price' ||
 						payload[0].dataKey == 'marketCap') && (
