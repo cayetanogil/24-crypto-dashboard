@@ -123,7 +123,7 @@ function CryptocurrencyDetail() {
 	}
 
 	return (
-		<div className="p-4 max-w-5xl mx-auto">
+		<div className="p-4">
 			{cryptocurrencyDetail?.market_data ? (
 				<>
 					<Card>
