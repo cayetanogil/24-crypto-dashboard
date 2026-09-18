@@ -173,12 +173,12 @@ function CryptocurrencyDetail() {
 											</div>
 										</div>
 									</div>
-									<ul className="flex flex-row w-full lg:w-auto border-t mt-2 pt-3 lg:border-t-0 lg:mt-0 lg:pt-0">
-										<li className="border-r flex-1 lg:flex-none pr-4 lg:px-4 text-center lg:text-left">
-											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
+									<ul className="flex flex-row w-full lg:w-auto justify-between sm:justify-start border-t mt-2 pt-3 lg:border-t-0 lg:mt-0 lg:pt-0">
+										<li className="border-r pr-3 sm:px-4 text-center lg:text-left">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 												Current Price
 											</div>
-											<div className="font-bold text-2xl">
+											<div className="font-bold text-xl lg:text-2xl whitespace-nowrap">
 												$
 												{numeral(
 													cryptocurrencyDetail.market_data
@@ -186,22 +186,22 @@ function CryptocurrencyDetail() {
 												).format('0,0.00')}
 											</div>
 										</li>
-										<li className="border-r flex-1 lg:flex-none px-4 text-center lg:text-left">
-											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
+										<li className="border-r px-3 sm:px-4 text-center lg:text-left">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 												Volume
 											</div>
-											<div className="font-bold text-2xl uppercase">
+											<div className="font-bold text-xl lg:text-2xl uppercase whitespace-nowrap">
 												{numeral(
 													cryptocurrencyDetail.market_data
 														.total_volume.usd
 												).format('0.00a')}
 											</div>
 										</li>
-										<li className="flex-1 lg:flex-none pl-4 text-center lg:text-left">
-											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 block">
+										<li className="pl-3 sm:px-4 text-center lg:text-left">
+											<div className="uppercase tracking-wide text-xs font-normal text-slate-500 whitespace-nowrap">
 												Market Cap
 											</div>
-											<div className="font-bold text-2xl uppercase">
+											<div className="font-bold text-xl lg:text-2xl uppercase whitespace-nowrap">
 												$
 												{numeral(
 													cryptocurrencyDetail.market_data.market_cap
