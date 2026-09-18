@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../store/index';
@@ -36,6 +36,13 @@ import {
 import CryptocurrencyDetailChart from '../components/CryptocurrencyDetailChart';
 import EmptyState from '../components/EmptyState';
 
+function getTimeZoneAbbreviation(date: Date): string {
+	return (
+		new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+			.formatToParts(date)
+			.find((part) => part.type === 'timeZoneName')?.value ?? ''
+	);
+}
 
 function CryptocurrencyDetail() {
 	const { id } = useParams<{ id: string }>();
@@ -68,6 +75,32 @@ function CryptocurrencyDetail() {
 	const historyError = useSelector(
 		(state: RootState) => state.cryptocurrency.historyError
 	);
+
+	const footerLinks = useMemo(() => {
+		if (!cryptocurrencyDetail) return [];
+		return (
+			[
+				cryptocurrencyDetail.links.homepage[0] && {
+					label: 'Homepage',
+					href: cryptocurrencyDetail.links.homepage[0],
+				},
+				cryptocurrencyDetail.links.repos_url.github[0] && {
+					label: 'Github',
+					href: cryptocurrencyDetail.links.repos_url.github[0],
+				},
+				cryptocurrencyDetail.links.subreddit_url && {
+					label: 'Reddit',
+					href: cryptocurrencyDetail.links.subreddit_url,
+				},
+				cryptocurrencyDetail.links.whitepaper && {
+					label: 'Whitepaper',
+					href: cryptocurrencyDetail.links.whitepaper,
+				},
+			] as const
+		).filter(
+			(link): link is { label: string; href: string } => Boolean(link)
+		);
+	}, [cryptocurrencyDetail]);
 
 	const updateTimeRange = (newTimeRange: TimeRange) => {
 		dispatch(setTimeRange(newTimeRange));
@@ -269,62 +302,41 @@ function CryptocurrencyDetail() {
 							</ul>
 						</CardContent>
 						<CardFooter className="p-4 flex flex-col sm:flex-row sm:justify-between ">
-							<ul className="*:inline *:mr-2 text-sm">
-								{cryptocurrencyDetail.links.homepage[0] && (
-									<li>
+							<ul className="text-sm">
+								{footerLinks.map((link, index) => (
+									<li key={link.label} className="inline">
+										{index > 0 && (
+											<span
+												className="text-slate-300 mx-2"
+												aria-hidden="true"
+											>
+												|
+											</span>
+										)}
 										<a
 											className="text-blue-500"
-											target="_blank" rel="noopener noreferrer"
-											href={cryptocurrencyDetail.links.homepage[0]}
+											target="_blank"
+											rel="noopener noreferrer"
+											href={link.href}
 										>
-											Homepage
+											{link.label}
 										</a>
 									</li>
-								)}
-								{cryptocurrencyDetail.links.repos_url.github[0] && (
-									<li>
-										<a
-											className="text-blue-500"
-											target="_blank" rel="noopener noreferrer"
-											href={
-												cryptocurrencyDetail.links.repos_url.github[0]
-											}
-										>
-											Github
-										</a>
-									</li>
-								)}
-								{cryptocurrencyDetail.links.subreddit_url && (
-									<li>
-										<a
-											className="text-blue-500"
-											target="_blank" rel="noopener noreferrer"
-											href={cryptocurrencyDetail.links.subreddit_url}
-										>
-											Reddit
-										</a>
-									</li>
-								)}
-								{cryptocurrencyDetail.links.whitepaper && (
-									<li>
-										<a
-											className="text-blue-500"
-											target="_blank" rel="noopener noreferrer"
-											href={cryptocurrencyDetail.links.whitepaper}
-										>
-											Whitepaper
-										</a>
-									</li>
-								)}
+								))}
 							</ul>
 
-							<p className="text-sm text-slate-500 font-semibold pt-4 sm:pt-0">
+							<p className="text-sm text-slate-500 pt-4 sm:pt-0">
 								Last Updated:{' '}
 								{format(
 									new Date(
 										cryptocurrencyDetail.market_data.last_updated
 									),
-									'yyyy-MM-dd HH:mm:ss'
+									'yyyy/MM/dd HH:mm:ss'
+								)}{' '}
+								{getTimeZoneAbbreviation(
+									new Date(
+										cryptocurrencyDetail.market_data.last_updated
+									)
 								)}
 							</p>
 						</CardFooter>
