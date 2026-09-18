@@ -213,7 +213,7 @@ function CryptocurrencyDetail() {
 								</CardTitle>
 								<CardDescription>
 									{cryptocurrencyDetail.description.en !== '' && (
-										<p className="pt-4 max-w-prose text-pretty line-clamp-3 leading-relaxed border-t">
+										<p className="pt-4 max-w-prose lg:max-w-none text-pretty line-clamp-3 leading-relaxed border-t">
 											{parse(cryptocurrencyDetail.description.en)}
 										</p>
 									)}
