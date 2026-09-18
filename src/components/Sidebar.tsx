@@ -128,8 +128,8 @@ const Sidebar = () => {
 							limit={15}
 						/>
 						<Drawer>
-							<DrawerTrigger className="text-sm mb-2 rounded py-1 px-2 text-slate-600 hover:text-slate-800 bg-slate-200 hover:bg-slate-300 transition-all">
-								More ...
+							<DrawerTrigger className="w-full text-sm mb-2 rounded py-1 px-2 text-slate-600 hover:text-slate-800 bg-slate-200 hover:bg-slate-300 transition-all cursor-pointer">
+								View all coins
 							</DrawerTrigger>
 							<DrawerContent className="bg-slate-100">
 								<DrawerHeader>
