@@ -172,10 +172,11 @@ function CryptocurrencyDetailChart({
 							/>
 							<YAxis
 								type="number"
+								width="auto"
 								domain={[yAxisTicks[0], yAxisTicks[yAxisTicks.length - 1]]}
 								ticks={yAxisTicks}
 								tick={AXIS_TICK_STYLE}
-								tickMargin={10}
+								tickMargin={6}
 								tickLine={false}
 								axisLine={false}
 								tickFormatter={(dataPoint: number) =>
