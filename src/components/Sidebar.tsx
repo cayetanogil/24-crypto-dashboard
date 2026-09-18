@@ -39,7 +39,7 @@ const Sidebar = () => {
 	};
 
 	return (
-		<aside className="flex w-48 shrink-0 bg-slate-100 border-r overflow-y-auto">
+		<aside className="flex w-full sm:w-48 sm:shrink-0 bg-slate-100 border-r overflow-y-auto">
 			<nav className="p-4 w-full">
 				<ul className="sm:pb-3 sm:border-b flex flex-row gap-2 sm:flex-col sm:justify-normal justify-around">
 					<li className="uppercase tracking-wide text-xs text-slate-500 pt-0 ml-2 select-none hidden sm:block">
